@@ -61,7 +61,8 @@ class AlphanumericMessage:
     def get_message(self):
         return self.message
 
+
+
 if __name__ == '__main__':
     m = LinearBinaryMessage(1000, max_error=50)
-    m.get_message()
     m.plot_values()
