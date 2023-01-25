@@ -44,9 +44,10 @@ class LinearModel:
 
 
 
-
 if __name__ == '__main__':
     message = mm.LinearBinaryMessage(1000, mode_param = 2, max_error = 5)
     model = LinearModel()
     compressed_message = model.compress(message)
-    print(f'\nInitial message size: {len(message.message)}\nCompressed message size: {len(compressed_message)}\n')
+    decompressed_message = model.decompress(compressed_message)
+    print(f'\nCorrect ? {message.message == decompressed_message}')
+    print(f'\nInitial message size: {len(message.message)}\nCompressed message size: {len(compressed_message)}\nCompression ratio: {len(compressed_message)/len(message.message)}\n')
