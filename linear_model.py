@@ -5,8 +5,9 @@ def create_message_binary(length, path):
         f.write(generate_message.generate_binary(length))
     
 def create_message_alphanumeric(length, path):
-    with open(path, 'w') as f:
-        f.write(generate_message.generate_alphanumeric(length))
+    with open(path, 'w', encoding='utf-8') as f:
+        m = generate_message.generate_alphanumeric(length)
+        f.write(m)
 
 if __name__ == '__main__':
     create_message_alphanumeric(10000, 'msg.txt')
