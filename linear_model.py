@@ -4,7 +4,7 @@ import math
 class LinearModel:
     def compress(self, message):
         # 8 bits for the slope, 
-        # 8 bits for the number of bit used for each value,
+        # 8 bits for the number of bits used for each value,
         # then the errors with the most significant bit to indicate the sign
         compressed_message = ''
         compressed_message += bin(message.mode_param)[2:].zfill(8)
