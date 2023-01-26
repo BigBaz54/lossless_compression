@@ -17,7 +17,7 @@ class LinearModel:
             errors.append(err)
             if abs(err) > max_err:
                 max_err = abs(err)
-        err_bits = math.ceil(math.log2(max_err))
+        err_bits = math.floor(math.log2(max_err))+1
         err_bits+=1 # pour le signe des erreurs
         compressed_message += bin(err_bits)[2:].zfill(8)
         for i in range(message.value_nb):
@@ -38,7 +38,7 @@ class LinearModel:
             if abs(actual_value) > max_val:
                 max_val = abs(actual_value)
             values.append(actual_value)
-        value_size = math.ceil(math.log2(max_val))+1
+        value_size = math.floor(math.log2(max_val))+1+1
         message = ''.join([('0' if e>=0 else '1') + bin(abs(e))[2:].zfill(value_size-1) for e in values])
         return message
         

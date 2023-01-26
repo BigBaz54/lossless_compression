@@ -37,7 +37,7 @@ class LinearBinaryMessage(BinaryMessage):
         super().__init__(value_nb)
         self.mode_param = mode_param
         self.max_error = max_error
-        self.value_size = math.ceil(math.log2(self.mode_param*self.value_nb+self.max_error))+1
+        self.value_size = math.floor(math.log2(self.mode_param*self.value_nb+self.max_error))+1+1
         self.generate_message()
 
     def generate_message(self):
@@ -51,7 +51,7 @@ class RecurrenceBinaryMessage(BinaryMessage):
         super().__init__(value_nb)
         self.first = first
         self.max_step = max_step
-        self.value_size = math.ceil(math.log2(self.first+self.max_step*self.value_nb))+1
+        self.value_size = None
         self.generate_message()
 
     def generate_message(self):
@@ -60,6 +60,7 @@ class RecurrenceBinaryMessage(BinaryMessage):
         for _ in range(self.value_nb):
             u += randint(-self.max_step, self.max_step)
             values.append(u)
+        self.value_size = math.floor(math.log2(max([abs(e) for e in values])))+1+1
         self.message = ''.join([(('0' if e>=0 else '1') + bin(abs(e))[2:].zfill(self.value_size-1)) for e in values])
 
 
