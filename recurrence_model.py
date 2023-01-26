@@ -49,7 +49,7 @@ class RecurrenceModel:
 
 
 if __name__ == '__main__':
-    message = mm.RecurrenceBinaryMessage(1000, max_step = 3)
+    message = mm.RecurrenceBinaryMessage(1000, first = 1000, max_step = 5)
     model = RecurrenceModel()
     compressed_message = model.compress(message)
     decompressed_message = model.decompress(compressed_message)
