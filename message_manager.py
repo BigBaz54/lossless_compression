@@ -57,7 +57,7 @@ class RecurrenceBinaryMessage(BinaryMessage):
     def generate_message(self):
         u = self.first
         values = [u]
-        for _ in range(self.value_nb-1):
+        for _ in range(self.value_nb):
             u += randint(-self.max_step, self.max_step)
             values.append(u)
         self.message = ''.join([(('0' if e>=0 else '1') + bin(abs(e))[2:].zfill(self.value_size-1)) for e in values])

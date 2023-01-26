@@ -12,16 +12,17 @@ class LinearModel:
         max_err = 0
         for i in range(message.value_nb):
             expected = message.mode_param*i
-            actual = int(message.message[i*message.value_size:(i+1)*message.value_size], 2)
+            actual = int(message.message[1+i*message.value_size:(i+1)*message.value_size], 2)*(-1 if message.message[i*message.value_size]=='1' else 1)
             err = actual-expected
             errors.append(err)
             if abs(err) > max_err:
                 max_err = abs(err)
         err_bits = math.ceil(math.log2(max_err))
-        compressed_message += bin(err_bits+1)[2:].zfill(8)
+        err_bits+=1 # pour le signe des erreurs
+        compressed_message += bin(err_bits)[2:].zfill(8)
         for i in range(message.value_nb):
             e = errors[i]
-            compressed_message += ('1' if e<0 else '0')+bin(abs(errors[i]))[2:].zfill(err_bits)
+            compressed_message += ('1' if e<0 else '0')+bin(abs(errors[i]))[2:].zfill(err_bits-1)
         return compressed_message
 
     def decompress(self, s):
@@ -37,15 +38,15 @@ class LinearModel:
             if abs(actual_value) > max_val:
                 max_val = abs(actual_value)
             values.append(actual_value)
-        value_size = math.ceil(math.log2(max_val))
-        message = ''.join([bin(e)[2:].zfill(value_size) if e>=0 else '0'*value_size for e in values])
+        value_size = math.ceil(math.log2(max_val))+1
+        message = ''.join([('0' if e>=0 else '1') + bin(abs(e))[2:].zfill(value_size-1) for e in values])
         return message
         
 
 
 
 if __name__ == '__main__':
-    message = mm.LinearBinaryMessage(1000, mode_param = 2, max_error = 5)
+    message = mm.LinearBinaryMessage(1000, mode_param = 2, max_error = 12)
     model = LinearModel()
     compressed_message = model.compress(message)
     decompressed_message = model.decompress(compressed_message)
